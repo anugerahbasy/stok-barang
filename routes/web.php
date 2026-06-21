@@ -78,7 +78,6 @@ Route::post('/logout', function (\Illuminate\Http\Request $request) {
     return redirect('/login');
 })->name('logout');
 
-
 // ==========================================
 // 2. GRUP RUTE PROTECTED (WAJIB LOGIN)
 // ==========================================
