@@ -11,7 +11,7 @@ class ProductController extends Controller
     // 1. READ: Hanya menampilkan data milik user yang sedang login
     public function index()
     {
-        $products = Product::where('user_id', Auth::id())
+        $products = Product::where('user_id', Auth::id())->get()
             ->with(['category', 'supplier'])
             ->latest()
             ->get();
