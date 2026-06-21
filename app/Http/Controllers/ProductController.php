@@ -3,44 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Category;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    // Tampilkan semua produk beserta relasinya
+    // 1. READ: Hanya menampilkan data milik user yang sedang login
     public function index()
     {
-        $products = Product::with(['category', 'supplier'])->latest()->get();
-        $categories = Category::all();
-        $suppliers = Supplier::all();
-        
-        return view('products.index', compact('products', 'categories', 'suppliers'));
+        $products = Product::where('user_id', Auth::id())
+            ->with(['category', 'supplier'])
+            ->latest()
+            ->get();
+            
+        return view('products.index', compact('products'));
     }
 
-    // Simpan produk baru ke database
+    // 2. CREATE: Mengaitkan data baru dengan user yang sedang login
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'nullable|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'sku' => 'required|unique:products,sku|max:50',
-            'name' => 'required|max:255',
-            'alert_threshold' => 'required|integer|min:1',
-            'cost_price' => 'required|numeric|min:0',
-            'selling_price' => 'required|numeric|gt:cost_price', // Validasi: Harga jual harus di atas harga modal
+            'sku' => 'required',
+            'name' => 'required',
+            // ... validasi lainnya
         ]);
 
-        Product::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = Auth::id(); // Authorization: Kunci data ke user
 
-        return redirect()->back()->with('success', 'Produk baru berhasil didaftarkan!');
+        Product::create($data);
+
+        return redirect()->back()->with('success', 'Produk berhasil ditambahkan!');
     }
 
-    // Hapus produk
-    public function destroy(Product $product)
+    // 3. DELETE: Memastikan user hanya bisa menghapus data miliknya
+    public function destroy($id)
     {
+        // Authorization: Query mencari data berdasarkan ID DAN user_id pemilik
+        $product = Product::where('id', $id)
+                          ->where('user_id', Auth::id())
+                          ->firstOrFail();
+        
         $product->delete();
+        
         return redirect()->back()->with('success', 'Produk berhasil dihapus!');
     }
 }

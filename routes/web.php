@@ -40,6 +40,10 @@ Route::post('/login', function (\Illuminate\Http\Request $request) {
     return back()->withErrors(['email' => 'Email atau password salah!']);
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::resource('products', ProductController::class);
+});
+
 // Halaman Register (GET)
 Route::get('/register', function () {
     return view('auth.register');

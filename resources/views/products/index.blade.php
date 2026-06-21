@@ -73,6 +73,8 @@
             </form>
         </div>
 
+        
+
         <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
                 <h3 class="text-md font-bold text-gray-800">Daftar Produk Gudang</h3>
@@ -88,7 +90,7 @@
                                             <th class="px-6 py-3">Harga (Modal/Jual)</th>
                                             <th class="px-6 py-3 w-16 text-center">Aksi</th>
                         <tbody>
-                    @forelse($products as $prod)
+                    @fosrelse($products as $prod)
                         <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
                             <td class="px-6 py-4 text-sm text-gray-900 font-medium">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4 text-sm text-gray-700 font-semibold">{{ $prod->name }}</td>
