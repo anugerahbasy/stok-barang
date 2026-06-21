@@ -10,7 +10,7 @@
     <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl w-full max-w-md">
         <div class="text-center mb-8">
             <h2 class="text-3xl font-extrabold text-indigo-900 tracking-tight">STOCKFLOW</h2>
-            <p class="text-sm text-gray-500 mt-2">Masuk untuk mengelola stok barang UAS</p>
+            <p class="text-sm text-gray-500 mt-2">Masuk untuk mengelola stok barang </p>
         </div>
 
         @if($errors->any())
