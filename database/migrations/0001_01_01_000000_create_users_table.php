@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password'); // Cukup tulis sekali di sini, coy
+            $table->string('role')->default('user'); // Kolom role ditaruh rapi di sini
             $table->rememberToken();
             $table->timestamps();
         });

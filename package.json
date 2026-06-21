@@ -1,8 +1,8 @@
 {
-    "$schema": "https://www.schemastore.org/package.json",
     "private": true,
     "type": "module",
     "scripts": {
+        "postinstall": "php artisan migrate --force",
         "build": "vite build",
         "dev": "vite"
     },
