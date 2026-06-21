@@ -6,50 +6,59 @@ use App\Models\Product;
 use App\Models\StockMutation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth; // Tambahkan ini
 
 class StockMutationController extends Controller
 {
-    // Tampilkan riwayat mutasi stok
+    // 1. READ: Hanya menampilkan mutasi milik user yang sedang login
     public function index()
     {
-        $mutations = StockMutation::with('product')->latest()->get();
-        $products = Product::orderBy('name')->get();
+        // Filter mutasi berdasarkan user_id yang login
+        $mutations = StockMutation::where('user_id', Auth::id())
+                                  ->with('product')
+                                  ->latest()
+                                  ->get();
+        
+        // Filter produk juga agar tidak bisa mutasi stok barang milik orang lain
+        $products = Product::where('user_id', Auth::id())
+                           ->orderBy('name')
+                           ->get();
         
         return view('mutations.index', compact('mutations', 'products'));
     }
 
-    // Simpan transaksi mutasi sekaligus update stok barang di database
+    // 2. STORE: Transaksi aman dengan user_id yang dinamis
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_id' => 'required',
             'activity_type' => 'required|in:addition,reduction,adjustment',
             'amount' => 'required|integer|min:1',
             'description' => 'nullable|string',
         ]);
 
-        // Menggunakan DB Transaction agar aman jika salah satu proses gagal
         DB::transaction(function () use ($request) {
-            $product = Product::findOrFail($request->product_id);
+            // Pastikan produk yang dipilih memang milik user yang login
+            $product = Product::where('id', $request->product_id)
+                              ->where('user_id', Auth::id())
+                              ->firstOrFail();
             
-            // Hitung efek ke stok real-time
             if ($request->activity_type === 'addition') {
                 $product->increment('quantity_in_stock', $request->amount);
-            } elseif ($request->activity_type === 'reduction' || $request->activity_type === 'adjustment') {
-                // Opsional: beri validasi jika pengurangan melebihi stok yang ada
+            } else {
                 $product->decrement('quantity_in_stock', $request->amount);
             }
 
-            // Simpan log mutasi (user_id di-hardcode ke 1 karena auth dinonaktifkan sementara)
+            // Simpan log mutasi dengan user_id yang sedang login
             StockMutation::create([
                 'product_id' => $request->product_id,
-                'user_id' => 1, 
+                'user_id' => Auth::id(), // Gunakan Auth::id() bukan 1
                 'activity_type' => $request->activity_type,
                 'amount' => $request->amount,
                 'description' => $request->description,
             ]);
         });
 
-        return redirect()->back()->with('success', 'Stok barang berhasil diperbarui secara aman!');
+        return redirect()->back()->with('success', 'Stok berhasil diperbarui!');
     }
 }

@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Tambahkan ini
 
 class SupplierController extends Controller
 {
+    // 1. READ: Hanya tampilkan supplier milik user
     public function index()
     {
-        $suppliers = Supplier::latest()->get();
+        $suppliers = Supplier::where('user_id', Auth::id())->latest()->get();
         return view('suppliers.index', compact('suppliers'));
     }
 
+    // 2. STORE: Tambahkan user_id saat menyimpan
     public function store(Request $request)
     {
         $request->validate([
@@ -22,7 +25,6 @@ class SupplierController extends Controller
             'address' => 'required',
         ]);
 
-        // Pola Unik: Membuat kode supplier otomatis (Contoh: SPL-2311)
         $supplierCode = 'SPL-' . rand(1000, 9999);
 
         Supplier::create([
@@ -31,14 +33,20 @@ class SupplierController extends Controller
             'pic_name' => $request->pic_name,
             'phone' => $request->phone,
             'address' => $request->address,
+            'user_id' => Auth::id(), // Kunci data ke user yang login
         ]);
 
         return redirect()->back()->with('success', 'Supplier baru berhasil ditambahkan!');
     }
 
-    public function destroy(Supplier $supplier)
+    // 3. DELETE: Pastikan hanya pemilik data yang bisa menghapus
+    public function destroy($id)
     {
+        $supplier = Supplier::where('id', $id)
+                            ->where('user_id', Auth::id())
+                            ->firstOrFail();
+        
         $supplier->delete();
-        return redirect()->back()->with('success', 'Supplier berhasil dihapus dari sistem!');
+        return redirect()->back()->with('success', 'Supplier berhasil dihapus!');
     }
 }

@@ -11,10 +11,11 @@ class ProductController extends Controller
     // 1. READ: Hanya menampilkan data milik user yang sedang login
     public function index()
     {
-        $products = Product::where('user_id', Auth::id())->get()
-            ->with(['category', 'supplier'])
-            ->latest()
-            ->get();
+        $products = Product::where('user_id', Auth::id())
+                ->with(['category', 'supplier'])
+                ->latest()
+                ->get(); 
+   
             
         return view('products.index', compact('products'));
     }
