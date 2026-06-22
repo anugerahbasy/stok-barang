@@ -11,13 +11,12 @@ class ProductController extends Controller
     // 1. READ: Hanya menampilkan data milik user yang sedang login
     public function index()
     {
-        $products = Product::where('user_id', Auth::id())
-                ->with(['category', 'supplier'])
-                ->latest()
-                ->get(); 
-   
-            
-        return view('products.index', compact('products'));
+        $products = \App\Models\Product::all();
+        $categories = \App\Models\Category::all();
+        $suppliers = \App\Models\Supplier::all();
+
+    // Kirim semua variabel ke view index
+    return view('products.index', compact('products', 'categories', 'suppliers'));
     }
 
     // 2. CREATE: Mengaitkan data baru dengan user yang sedang login
