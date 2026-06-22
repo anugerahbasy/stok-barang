@@ -1,37 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - STOCKFLOW</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl w-full max-w-md">
         <div class="text-center mb-8">
             <h2 class="text-3xl font-extrabold text-indigo-900 tracking-tight">STOCKFLOW</h2>
-            <p class="text-sm text-gray-500 mt-2">Masuk untuk mengelola stok barang </p>
+            <p class="text-sm text-gray-500 mt-2">Masuk untuk mengelola stok barang</p>
         </div>
 
+        {{-- Menampilkan Error Validasi --}}
         @if($errors->any())
             <div class="p-3 mb-4 text-sm text-red-700 bg-red-50 rounded-xl border border-red-200">
                 {{ $errors->first() }}
             </div>
         @endif
 
-        <form action="/login" method="POST" class="space-y-5">
+        {{-- Menggunakan route('login') lebih disarankan daripada action="/login" --}}
+        <form action="{{ route('login') }}" method="POST" class="space-y-5">
             @csrf
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Alamat Email</label>
-                <input type="email" name="email" required placeholder="nama@email.com" 
-                       class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+                <input type="email" name="email" value="{{ old('email') }}" required placeholder="nama@email.com" 
+                       class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
             </div>
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Password</label>
                 <input type="password" name="password" required placeholder="••••••••" 
-                       class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+                       class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
             </div>
-            <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-sm transition">
+            <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-md transition transform active:scale-95">
                 Masuk Sistem
             </button>
         </form>
