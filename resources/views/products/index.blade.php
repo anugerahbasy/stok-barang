@@ -119,17 +119,16 @@
                         </tr>
                         @forelse($products as $product)
             <tr>
-                <td>...</td>
-                {{-- isi baris tabel kamu --}}
-            </tr>
-        @empty
-            <tr>
-                <td colspan="6" class="px-6 py-10 text-center text-gray-400">
-                    Belum ada data produk barang.
-                </td>
-            </tr>
-        @endforelse
-                </div>
+                            <td>...</td>
+                            @forelse($products as $product)
+                <tr>
+                    <td>{{ $product->name }}</td>
+                    </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center">Belum ada data.</td>
+                </tr>
+            @endforelse
 
     </div>
 </x-app-layout>
