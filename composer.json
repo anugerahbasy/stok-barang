@@ -79,13 +79,7 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        },
-        "require": {
-    "php": "^8.2",
-    "ext-pdo": "*",
-    "ext-pdo_mysql": "*",
-    "ext-mysqli": "*"
-}
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true
