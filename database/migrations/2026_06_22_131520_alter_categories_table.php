@@ -6,21 +6,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-    {
-        Schema::table('categories', function (Blueprint $table) {
+{
+    Schema::table('categories', function (Blueprint $table) {
 
-            $table->foreignId('user_id')
-                  ->nullable()
-                  ->after('id')
-                  ->constrained()
-                  ->cascadeOnDelete();
+        $table->foreignId('user_id')
+              ->nullable()
+              ->after('id')
+              ->constrained()
+              ->cascadeOnDelete();
 
-            
-
-            $table->unique(['user_id', 'name']);
-            $table->unique(['user_id', 'slug']);
-        });
-    }
+        $table->unique(['user_id', 'name']);
+    });
+}
 
     public function down(): void
     {
