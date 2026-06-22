@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'user_id'
+    ];
 
-    // Relasi: Satu kategori punya banyak produk
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
