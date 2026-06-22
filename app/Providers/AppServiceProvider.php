@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\URL; // Jangan lupa import URL
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,12 +13,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // 1. Force HTTPS jika di production
+        // Force HTTPS hanya jika di lingkungan produksi (Railway)
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
 
-        // 2. Registrasi Blade component kustom
+        // Registrasi Blade component kustom
         Blade::component('layouts.app', 'app-layout');
     }
 
