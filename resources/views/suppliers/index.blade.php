@@ -57,29 +57,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($suppliers as $supplier)
-                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-                                <td class="px-6 py-4 text-sm text-gray-500 font-mono">{{ $supplier->supplier_code }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-900 font-semibold">{{ $supplier->company_name }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
-                                    {{ $supplier->pic_name }}<br>
-                                    <span class="text-xs text-gray-400">{{ $supplier->phone }}</span>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ $supplier->address }}</td>
-                                <td class="px-6 py-4 text-sm text-center">
-                                    @if(auth()->user()->role === 'admin')
-                                        <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" onsubmit="return confirm('Hapus supplier ini?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash-can"></i></button>
-                                        </form>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="px-6 py-10 text-center text-gray-400">Belum ada data supplier.</td>
-                            </tr>
-                        @endforelse
+                            @forelse($suppliers as $supplier)
+                                <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 text-sm text-gray-500 font-mono">{{ $supplier->supplier_code }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-900 font-semibold">{{ $supplier->company_name }}</td> <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $supplier->pic_name }} <br> <span class="text-xs text-gray-400">{{ $supplier->phone }}</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $supplier->address }}</td>
+                                    <td class="px-6 py-4 text-sm">
+                                        @if(auth()->user()->role === 'admin')
+                                            <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" onsubmit="return confirm('Hapus supplier ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-500 hover:text-red-700 p-2">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-10 text-center text-gray-400">Belum ada data supplier.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
                     </tbody>
                 </table>
             </div>
