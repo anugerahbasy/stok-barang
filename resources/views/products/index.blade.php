@@ -89,46 +89,39 @@
                             <th class="px-6 py-3">Stok</th>
                                             <th class="px-6 py-3">Harga (Modal/Jual)</th>
                                             <th class="px-6 py-3 w-16 text-center">Aksi</th>
-                        <tbody>
-                    @fosrelse($products as $prod)
-                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">{{ $loop->iteration }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-semibold">{{ $prod->name }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-500">
-                                <span class="px-2 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-md">
-                                    {{ $prod->category->name ?? 'Tanpa Kategori' }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-500">{{ $prod->supplier->name ?? 'Tanpa Supplier' }}</td>
-                            <td class="px-6 py-4 text-sm font-bold {{ $prod->stock < 5 ? 'text-red-600 bg-red-50' : 'text-gray-700' }}">
-                                {{ $prod->stock }} Pcs
-                            </td>
-                            <td class="px-6 py-4 text-sm">
-                                @if(auth()->user()->role === 'admin')
-                                    <form action="{{ route('products.destroy', $prod->id) }}" method="POST" onsubmit="return confirm('Hapus produk ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </form>
-                                @else
-                                    <span class="text-xs text-gray-400 font-medium bg-gray-100 px-2 py-1 rounded-md">View Only</span>
-                                @endif
-                            </td>
-                        </tr>
-                        @forelse($products as $product)
+                    <tbody>
+        @forelse($products as $prod)
+            <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+                <td class="px-6 py-4 text-sm text-gray-900 font-medium">{{ $loop->iteration }}</td>
+                <td class="px-6 py-4 text-sm text-gray-700 font-semibold">{{ $prod->name }}</td>
+                <td class="px-6 py-4 text-sm text-gray-500">
+                    <span class="px-2 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-md">
+                        {{ $prod->category->name ?? 'Tanpa Kategori' }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500">{{ $prod->supplier->company_name ?? 'Tanpa Supplier' }}</td>
+                <td class="px-6 py-4 text-sm font-bold {{ $prod->stock < 5 ? 'text-red-600 bg-red-50' : 'text-gray-700' }}">
+                    {{ $prod->stock }} Pcs
+                </td>
+                <td class="px-6 py-4 text-sm text-center">
+                    @if(auth()->user()->role === 'admin')
+                        <form action="{{ route('products.destroy', $prod->id) }}" method="POST" onsubmit="return confirm('Hapus produk ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    @else
+                        <span class="text-xs text-gray-400 font-medium bg-gray-100 px-2 py-1 rounded-md">View Only</span>
+                    @endif
+                </td>
+            </tr>
+        @empty
             <tr>
-                            <td>...</td>
-                            @forelse($products as $product)
-                <tr>
-                    <td>{{ $product->name }}</td>
-                    </tr>
-            @empty
-                <tr>
-                    <td colspan="6" class="text-center">Belum ada data.</td>
-                </tr>
-            @endforelse
-
+                <td colspan="6" class="px-6 py-10 text-center text-gray-400">Belum ada data produk barang.</td>
+            </tr>
+        @endforelse
+    </tbody>
     </div>
 </x-app-layout>
