@@ -117,14 +117,19 @@
                                 @endif
                             </td>
                         </tr>
-                    ...
-            @empty
-                                    <tr>
-                                        <td colspan="6" class="px-6 py-10 text-center text-gray-400">Belum ada data produk barang.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-        </div>
+                        @forelse($products as $product)
+            <tr>
+                <td>...</td>
+                {{-- isi baris tabel kamu --}}
+            </tr>
+        @empty
+            <tr>
+                <td colspan="6" class="px-6 py-10 text-center text-gray-400">
+                    Belum ada data produk barang.
+                </td>
+            </tr>
+        @endforelse
+                </div>
 
     </div>
 </x-app-layout>
