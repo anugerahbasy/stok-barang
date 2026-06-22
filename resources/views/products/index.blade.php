@@ -118,14 +118,12 @@
                             </td>
                         </tr>
                     ...
-    @empty
-        <tr>
-            <td colspan="6" class="px-6 py-10 text-center text-gray-400">Belum ada data produk barang.</td>
-        </tr>
-    @endforelse  {{-- Pastikan ini adalah @endforelse, bukan @endforeach --}}
-    </tbody>
-</div>
-                </tbody>
+            @empty
+                                    <tr>
+                                        <td colspan="6" class="px-6 py-10 text-center text-gray-400">Belum ada data produk barang.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
         </div>
 
     </div>
