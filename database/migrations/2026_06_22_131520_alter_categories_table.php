@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -6,18 +7,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-{
-    Schema::table('categories', function (Blueprint $table) {
+    {
+        Schema::table('categories', function (Blueprint $table) {
 
-        $table->foreignId('user_id')
-              ->nullable()
-              ->after('id')
-              ->constrained()
-              ->cascadeOnDelete();
-
-        $table->unique(['user_id', 'name']);
-    });
-}
+            $table->unique(['user_id', 'name']);
+            $table->unique(['user_id', 'slug']);
+        });
+    }
 
     public function down(): void
     {
@@ -25,11 +21,6 @@ return new class extends Migration
 
             $table->dropUnique(['user_id', 'name']);
             $table->dropUnique(['user_id', 'slug']);
-
-            $table->dropConstrainedForeignId('user_id');
-
-            $table->unique('name');
-            $table->unique('slug');
         });
     }
 };
