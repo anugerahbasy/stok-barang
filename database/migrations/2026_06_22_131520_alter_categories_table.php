@@ -15,8 +15,7 @@ return new class extends Migration
                   ->constrained()
                   ->cascadeOnDelete();
 
-            $table->dropUnique('categories_name_unique');
-            $table->dropUnique('categories_slug_unique');
+            
 
             $table->unique(['user_id', 'name']);
             $table->unique(['user_id', 'slug']);
