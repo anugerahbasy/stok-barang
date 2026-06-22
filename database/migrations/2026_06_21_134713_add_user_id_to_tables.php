@@ -9,26 +9,32 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-{
-    Schema::table('products', function (Blueprint $table) {
-        $table->unsignedBigInteger('user_id')->nullable();
-    });
-    Schema::table('categories', function (Blueprint $table) {
-        $table->unsignedBigInteger('user_id')->nullable();
-    });
-    Schema::table('suppliers', function (Blueprint $table) {
-        $table->unsignedBigInteger('user_id')->nullable();
-    });
-}
+    public function up(): void
+    {
+        Schema::table('products', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable();
+        });
+        Schema::table('categories', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable();
+        });
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable();
+        });
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('tables', function (Blueprint $table) {
-            //
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->dropColumn('user_id');
         });
     }
 };
