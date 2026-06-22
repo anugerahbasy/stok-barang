@@ -16,11 +16,13 @@
                 @csrf
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Pilih Produk Barang</label>
-                    <select name="product_id" required class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+                    <select name="product_id" required class="w-full px-4 py-2 border rounded-xl">
                         <option value="">-- Pilih Barang --</option>
-                        @foreach($products as $prod)
-                            <option value="{{ $prod->id }}">{{ $prod->name }} (Sisa: {{ $prod->quantity_in_stock }} Pcs)</option>
-                        @endforeach
+                        @forelse($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                        @empty
+                            <option disabled>Tidak ada barang ditemukan</option>
+                        @endforelse
                     </select>
                 </div>
 
