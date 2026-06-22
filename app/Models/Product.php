@@ -10,7 +10,7 @@ class Product extends Model
 {
     protected $fillable = [
         'category_id', 'supplier_id', 'sku', 'name', 
-        'alert_threshold', 'quantity_in_stock', 'cost_price', 'selling_price', 
+        'alert_threshold', 'quantity_in_stock', 'cost_price', 'selling_price', 'user_id'
     ];
 
     public function category(): BelongsTo
