@@ -101,7 +101,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">{{ $prod->supplier->company_name ?? 'Tanpa Supplier' }}</td>
                                 <td class="px-6 py-4 text-sm font-bold {{ $prod->stock < 5 ? 'text-red-600 bg-red-50' : 'text-gray-700' }}">
-                                    {{ $prod->stock }} Pcs
+                                    {{ $prod->quantity_in_stock }} Pcs
                                 </td>
                                 <td class="px-6 py-4 text-sm text-center">
                                     @if(auth()->user()->role === 'admin')
